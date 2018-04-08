@@ -4,3 +4,5 @@
 4. 执行electron . or npm start
 
 尽情体验央视往期节目吧
+
+![截图](http://codding.cn/cctv.png)
