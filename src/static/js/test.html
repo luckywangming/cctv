@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  
+<script>
+  document.onkeydown = function(e) {
+    const isCtrlKey = e.ctrlKey || e.metaKey
+    const isAltKey = e.altKey
+    const isShiftKey = e.shiftKey
+    const keyMap = {
+      '13': 'enter',
+      '27': 'esc',
+      '37': 'left',
+      '38': 'top',
+      '39': 'right',
+      '40': 'bottom',
+    }
+    const sKey = keyMap[e.keyCode]
+    console.log(e.keyCode)
+
+    if (isCtrlKey && isShiftKey && isAltKey) {
+      switch (sKey) {
+
+      }
+    } else if (isCtrlKey && isShiftKey) {
+      switch (sKey) {
+
+      }
+    } else if (isCtrlKey && isAltKey) {
+      switch (sKey) {
+
+      }
+    } else if (isShiftKey && isAltKey) {
+      switch (sKey) {
+
+      }
+    } else if (isCtrlKey) {
+      switch (sKey) {
+
+      }
+    } else if (isAltKey) {
+      switch (sKey) {
+
+      }
+    } else if (isShiftKey) {
+      switch (sKey) {
+
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

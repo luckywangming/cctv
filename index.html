@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>Powered By 摘星fy</title>
+  <link rel="stylesheet" href="./src/static/boot/css/bootstrap.css">
+  <link rel="stylesheet" href="./src/static/css/all.css">
+</head>
+<body style="display: -none;">
+
+<div id="app" @click="is.displayQR=false">
+  <div class="topbar">
+    <!-- <div class="fl">
+      <div class="logo">央视往期</div>
+    </div> -->
+    <div class="fl">
+      <div class="ib btn btn-default" title="后退"
+        onclick="history.back()"
+      >
+        <i class="glyphicon glyphicon-arrow-left"></i>
+      </div>
+      <div class="ib btn btn-default" title="前进"
+        onclick="history.forward()"
+      >
+        <i class="glyphicon glyphicon-arrow-right"></i>
+      </div>
+      <div class="ib btn btn-default" title="刷新"
+        onclick="location.reload()"
+      >
+        <i class="glyphicon glyphicon-refresh"></i>
+      </div>
+    </div>
+    <div class="fr">
+      <div class="ib btn btn-default" href="javascript:" title="设置"
+        @click="userExec('设置')"
+      >
+        <i class="glyphicon glyphicon-cog"></i>
+      </div>
+      <div class="ib btn btn-default" href="javascript:" title="清缓存"
+        @click="userExec('清缓存')"
+      >
+        <i class="glyphicon glyphicon-trash"></i>
+      </div>
+      <div class="ib btn btn-default" href="javascript:" title="二维码"
+        @click.stop="userExec('二维码')"
+        v-if="router.m3u8"
+      >
+        <i class="glyphicon glyphicon-qrcode"></i>
+        <div class="qr-box" v-show="router.m3u8 && is.displayQR"></div>
+      </div>
+      <div class="ib btn btn-danger" href="javascript:" title="关闭视频"
+        @click="userExec('关闭视频')"
+        v-if="router.m3u8"
+      >
+        <i class="glyphicon glyphicon-remove"></i>
+      </div>
+      <!-- <a href="javascript:" @click="userExec('用户信息')">欢迎回来：摘星fy</a>
+      <a href="javascript:" @click="userExec('退出')">退出</a> -->
+    </div>
+    <div class="mid">
+      <input type="text" class="form-control" :value="href" list="search-list">
+      <datalist id="search-list">
+        <option value="" v-for="(item, idx) in searchList">{{item}}</option>
+      </datalist>
+    </div>
+  </div>
+  <div class="pages">
+    <div class="page page-cctv flex">
+      <div class="channel">
+        <ul>
+          <li
+            v-for="(item, idx) in channelList"
+            :class="{on: router.cur.channel === idx}"
+            @click="clickChannel(item, idx)"
+          >
+            <i class="glyphicon glyphicon-home"></i>
+            <span>{{item.channelName}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="column">
+        <ul>
+          <li
+            v-for="(item, idx) in curColumnList"
+            :class="{on: router.cur.column === idx}"
+            @click="clickColumn(item, idx)"
+          >
+            <i class="glyphicon glyphicon-film"></i>
+            <span>{{item.column_name}} ({{item.videos.length}})</span>
+          </li>
+        </ul>
+      </div>
+      <div class="content">
+        <div class="layout">
+          <div class="gray-title" style="padding-top: 3px;">
+            <input class="form-control" placeholder="搜索..." v-model="router.searchText">
+          </div>
+          <div class="auto-scroll" @scroll="lazyLoad()">
+            <div style="padding: 6px;">
+              <div style="padding: 30px; font-size: 30px; color: #999; text-align: center;"
+                v-if="curColumn.isLoadAll && curColumn.videos.length === 0"
+              >暂无相关视频</div>
+              <ul style="overflow: hidden;" @click="getM3u8Address">
+                <li class="item col-lg-2 col-md-3 col-sm-4 com-xs-6"
+                  v-for="(item, idx) in videos"
+                  v-show="item.isAccord"
+                  :title="item.videoBrief"
+                >
+                  <div class="img" :lazy-load="item.videoKeyFrameUrl">
+                    <div class="text-box">
+                      <div class="title">{{item.videoTitle}}</div>
+                      <div class="info">{{item.videoTag}}</div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="layout vide-box" style="background: #333;" v-if="router.m3u8">
+          <video src="" id="video" controls="" autoplay="" 
+            @dblclick="enterFullScreenOrNot"
+            @timeUpdate="videoOnTimeUpdate"
+            @click="playVideoOrPause"
+          ></video>
+          <div class="btn-close"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="loading" v-if="is.loading">
+    <div class="loading-center-absolute">
+      <div class="object object_one"></div>
+      <div class="object object_two" style="left:20px;"></div>
+      <div class="object object_three" style="left:40px;"></div>
+      <div class="object object_four" style="left:60px;"></div>
+      <div class="object object_five" style="left:80px;"></div>
+    </div>
+  </div>
+</div>
+
+<script src="./src/static/js/hls.js"></script>
+<script src="./src/static/js/qrcode.js"></script>
+<script src="./src/static/js/vue.js"></script>
+<script src="./src/static/js/utils.js"></script>
+<script src="./src/static/js/index.js"></script>
+
+</body>
+</html>
